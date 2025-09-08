@@ -492,11 +492,12 @@ public class Principal extends javax.swing.JFrame {
     private void btnAAGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAAGuardarActionPerformed
         // TODO add your handling code here:
         try {
-            int legajo = Integer.parseInt(inptLegajo.getText());
-
-        
+        int legajo = Integer.parseInt(inptLegajo.getText());
         String  apellido = inptApellido.getText();
-        String  nombre = inptNombre.getText();           
+        String  nombre = inptNombre.getText();
+        
+        
+        
       } catch (NumberFormatException e) {
           JOptionPane.showMessageDialog(this, "Ingrese un numero valido pliss");
         }
