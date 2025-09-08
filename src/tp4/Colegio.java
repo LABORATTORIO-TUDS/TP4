@@ -4,6 +4,8 @@
  */
 package tp4;
 
+import Vistas.Principal;
+import java.util.HashSet;
 import java.util.Set;
 import javax.swing.JFrame;
 
@@ -13,8 +15,8 @@ import javax.swing.JFrame;
  */
 public class Colegio {
     
-        private Set<Materia> materias;
-        private  Set<Alumno> alumnos;
+        private static Set<Materia> materias = new HashSet<>();
+        private static Set<Alumno> alumnos = new HashSet<>();
 
 
 
@@ -29,8 +31,22 @@ public class Colegio {
         Alumno a1 = new Alumno(1001, "Lopez", "Martin");
         Alumno a2 = new Alumno(1002, "Martinez", "Brenda");
         
-        new Principal().setVisible(true);
+        materias.add(m1);
+                materias.add(m2);
+                        materias.add(m3);
+                        alumnos.add(a1);
+                        alumnos.add(a2);
 
+
+        new Principal().setVisible(true);
+    }
+    
+    public static HashSet<Alumno> getAlumnos(){
+        return (HashSet<Alumno>) alumnos;
+    }
+    
+    public static HashSet<Materia> getMaterias(){
+        return (HashSet<Materia>) materias;
     }
     
 }

@@ -42,7 +42,10 @@ public class Materia {
     public void setAnio(int anio) {
         this.anio = anio;
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return nomMateria + " - Año " + anio;
+    }
+
 }

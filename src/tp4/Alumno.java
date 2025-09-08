@@ -16,13 +16,14 @@ public class Alumno {
     private final String apellido;
     private final String nombre;
     private final Set<Materia> materias;
-    
-    public String agregarMateria(Materia m){
-        if (materias.add(m)) return ("Inscripto en " + m.getNomMateria());
+
+    public String agregarMateria(Materia m) {
+        if (materias.add(m))
+            return ("Inscripto en " + m.getNomMateria());
         return ("Ya inscripto a " + m.getNomMateria());
     }
-    
-    public int cantidadMaterias(){
+
+    public int cantidadMaterias() {
         return materias.size();
     }
 
@@ -49,5 +50,9 @@ public class Alumno {
         return materias;
     }
 
-    
+    @Override
+    public String toString() {
+        return apellido + ", " + nombre + " (" + legajo + ")";
+    }
+
 }
