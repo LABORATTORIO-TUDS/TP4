@@ -15,7 +15,7 @@ import tp4.Materia;
  * @author crist
  */
 public class Principal extends javax.swing.JFrame {
-    
+
     public static HashSet<Alumno> alumnos = new HashSet<>();
     public static HashSet<Materia> materias = new HashSet<>();
 
@@ -27,7 +27,7 @@ public class Principal extends javax.swing.JFrame {
         jifAgregarMateria.hide();
         jifInscribir.hide();
         jifagregarAlumno.hide();
-        
+
         alumnos = Colegio.getAlumnos();
         materias = Colegio.getMaterias();
     }
@@ -109,6 +109,11 @@ public class Principal extends javax.swing.JFrame {
         });
 
         btnAANuevo.setText("Nuevo");
+        btnAANuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAANuevoActionPerformed(evt);
+            }
+        });
 
         btnAAGuardar.setText("Guardar");
         btnAAGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -279,11 +284,21 @@ public class Principal extends javax.swing.JFrame {
         });
 
         btnAMNuevo.setText("Nuevo");
+        btnAMNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAMNuevoActionPerformed(evt);
+            }
+        });
 
         btnAMGuardar.setText("Guardar");
+        btnAMGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAMGuardarActionPerformed(evt);
+            }
+        });
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("Formulario de Alumnos");
+        jLabel5.setText("Formulario de materias");
 
         jLabel6.setText("CODIGO DE MATERIA:");
 
@@ -364,7 +379,7 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jifAgregarMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(escritorioLayout.createSequentialGroup()
-                        .addGap(175, 175, 175)
+                        .addGap(126, 126, 126)
                         .addComponent(jifInscribir, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(72, Short.MAX_VALUE))
         );
@@ -375,9 +390,9 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jifAgregarMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jifagregarAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jifInscribir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         mAlumnos.setText("VistaAlumnos");
@@ -445,27 +460,32 @@ public class Principal extends javax.swing.JFrame {
     private void mitmAgregarAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitmAgregarAlumnoActionPerformed
         // TODO add your handling code here:
         jifagregarAlumno.show();
+        escritorio.revalidate();
+        escritorio.repaint();
 
     }//GEN-LAST:event_mitmAgregarAlumnoActionPerformed
 
     private void mitmAgregarMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitmAgregarMateriaActionPerformed
         // TODO add your handling code here:
         jifAgregarMateria.show();
+         escritorio.revalidate();
+        escritorio.repaint();
 
     }//GEN-LAST:event_mitmAgregarMateriaActionPerformed
 
     private void mitmInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitmInscribirActionPerformed
         // TODO add your handling code here:
         jifInscribir.show();
-        
-       
-        
-        for (Alumno a : alumnos){
+        cbAlumnos.removeAllItems();
+        cbMaterias.removeAllItems();
+        for (Alumno a : alumnos) {
             cbAlumnos.addItem(a);
         }
-        for (Materia m : materias){
+        for (Materia m : materias) {
             cbMaterias.addItem(m);
         }
+         escritorio.revalidate();
+        escritorio.repaint();
 
     }//GEN-LAST:event_mitmInscribirActionPerformed
 
@@ -486,22 +506,30 @@ public class Principal extends javax.swing.JFrame {
 
     private void mSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSalirActionPerformed
         // TODO add your handling code here:
-        dispose();
+        this.jFrame1.dispose();
     }//GEN-LAST:event_mSalirActionPerformed
 
     private void btnAAGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAAGuardarActionPerformed
         // TODO add your handling code here:
         try {
-        int legajo = Integer.parseInt(inptLegajo.getText());
-        String  apellido = inptApellido.getText();
-        String  nombre = inptNombre.getText();
-        
-        
-        
-      } catch (NumberFormatException e) {
-          JOptionPane.showMessageDialog(this, "Ingrese un numero valido pliss");
+            int legajo = Integer.parseInt(inptLegajo.getText());
+            String apellido = inptApellido.getText();
+            String nombre = inptNombre.getText();
+            boolean res = alumnos.removeIf(alumno -> alumno.getLegajo() == legajo);
+            if (res) {
+                Alumno al = new Alumno(legajo, apellido, nombre);
+                alumnos.add(al);
+                   JOptionPane.showMessageDialog(this, "Alumno actualizada");
+                this.jifagregarAlumno.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(this, "Legajo no encontrado");
+
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Ingrese un numero valido pliss");
         }
-           
+
     }//GEN-LAST:event_btnAAGuardarActionPerformed
 
     private void cbAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAlumnosActionPerformed
@@ -514,14 +542,78 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnIInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIInscribirActionPerformed
         // TODO add your handling code here:
-        Alumno  alSelect = (Alumno) cbAlumnos.getSelectedItem();
-        Materia  matSelect = (Materia) cbMaterias.getSelectedItem();
-        
+        Alumno alSelect = (Alumno) cbAlumnos.getSelectedItem();
+        Materia matSelect = (Materia) cbMaterias.getSelectedItem();
+
         if (alSelect != null && matSelect != null) {
             String res = alSelect.agregarMateria(matSelect);
-            JOptionPane.showMessageDialog(this,"El alumno "+ alSelect + " "+ res);
-        } 
+            JOptionPane.showMessageDialog(this, "El alumno " + alSelect + " " + res);
+        }
     }//GEN-LAST:event_btnIInscribirActionPerformed
+
+    private void btnAMGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAMGuardarActionPerformed
+        // TODO add your handling code here:
+        try {
+            int codMat = Integer.parseInt(inptCodMat.getText());
+            String nommat = inptNomMat.getText();
+            int anio = Integer.parseInt(inptAnio.getText());
+            boolean res = materias.removeIf(materia -> materia.getIdMateria()== codMat);
+            if (res) {
+                Materia al = new Materia(codMat, nommat, anio);
+                materias.add(al);
+                JOptionPane.showMessageDialog(this, "Materia actualizada");
+                this.jifAgregarMateria.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(this, "Materia no encontrado");
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Ingrese un numero valido pliss");
+        }
+    }//GEN-LAST:event_btnAMGuardarActionPerformed
+
+    private void btnAANuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAANuevoActionPerformed
+        // TODO add your handling code here:
+        try {
+            int legajo = Integer.parseInt(inptLegajo.getText());
+            String apellido = inptApellido.getText();
+            String nombre = inptNombre.getText();
+            boolean existe = alumnos.stream().anyMatch(alumno -> alumno.getLegajo() == legajo);
+            if (!existe) {
+                Alumno al = new Alumno(legajo, apellido, nombre);
+                alumnos.add(al);
+                   JOptionPane.showMessageDialog(this, "Alumno creado");
+                this.jifagregarAlumno.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(this, "Alumno ya existente");
+
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Ingrese un numero valido pliss");
+        }
+    }//GEN-LAST:event_btnAANuevoActionPerformed
+
+    private void btnAMNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAMNuevoActionPerformed
+// TODO add your handling code here:
+        try {
+              int codMat = Integer.parseInt(inptCodMat.getText());
+            String nommat = inptNomMat.getText();
+            int anio = Integer.parseInt(inptAnio.getText());
+            boolean existe = materias.stream().anyMatch(materia -> materia.getIdMateria()== codMat);
+            if (!existe) {
+               Materia al = new Materia(codMat, nommat, anio);
+                materias.add(al);
+                JOptionPane.showMessageDialog(this, "Materia creada");
+                this.jifAgregarMateria.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(this, "Materia ya existente");
+
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Ingrese un numero valido pliss");
+        }    }//GEN-LAST:event_btnAMNuevoActionPerformed
 
     /**
      * @param args the command line arguments
